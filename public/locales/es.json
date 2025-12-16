@@ -1,0 +1,156 @@
+{
+  "app": {
+    "name": "TaxiHub",
+    "tagline": "Portal de Gestión Comunitaria"
+  },
+  "login": {
+    "title": "Inicio de Sesión Admin",
+    "subtitle": "Conectar con Hive Keychain",
+    "button": "Iniciar Sesión con Keychain",
+    "info": "Se requiere la extensión Hive Keychain"
+  },
+  "hubSelector": {
+    "title": "Selecciona un Hub",
+    "subtitle": "Elige una comunidad para gestionar",
+    "loggedInAs": "Conectado como",
+    "noHubs": "No hay hubs disponibles",
+    "owner": "Dueño"
+  },
+  "nav": {
+    "logout": "Cerrar Sesión"
+  },
+  "menu": {
+    "overview": "Resumen",
+    "subscribers": "Suscriptores",
+    "drivers": "Conductores",
+    "roles": "Roles",
+    "posts": "Publicaciones",
+    "moderation": "Moderación",
+    "composer": "Crear Publicación"
+  },
+  "overview": {
+    "title": "Vista General de la Comunidad",
+    "totalSubscribers": "Total Suscriptores",
+    "verifiedDrivers": "Conductores Verificados",
+    "recentSignups": "Registros Recientes",
+    "livePosts": "Posts Activos",
+    "livePostsTooltip": "Los Posts Activos son publicaciones pendientes con pagos pendientes. Estos incluyen turnos de taxi y otras publicaciones.",
+    "adminsAndMods": "Admins y Mods",
+    "communityDetails": "Detalles de la Comunidad",
+    "communityId": "ID de Comunidad",
+    "communityTitle": "Título",
+    "language": "Idioma",
+    "created": "Creado"
+  },
+  "subscribers": {
+    "title": "Suscriptores",
+    "subtitle": "Personas que se unieron pero aún no están verificadas como conductores",
+    "refresh": "Actualizar",
+    "search": "Buscar...",
+    "account": "Cuenta",
+    "userTitle": "Título",
+    "joined": "Unido",
+    "actions": "Acciones",
+    "promoteToDriver": "Promover a Conductor",
+    "loading": "Cargando suscriptores...",
+    "noSubscribers": "No hay suscriptores pendientes"
+  },
+  "drivers": {
+    "title": "Conductores Verificados",
+    "subtitle": "Miembros con rol de conductor (pueden publicar turnos)",
+    "refresh": "Actualizar",
+    "search": "Buscar conductores...",
+    "account": "Cuenta",
+    "userTitle": "Título",
+    "role": "Rol",
+    "joined": "Se Unió",
+    "actions": "Acciones",
+    "changeRole": "Cambiar Rol",
+    "demote": "Remover de la Flota",
+    "promoteToMod": "Promover a Moderador",
+    "confirmDemote": "¿Remover a {account} de la flota de conductores?",
+    "confirmPromoteToMod": "¿Promover a {account} a moderador?",
+    "loading": "Cargando conductores...",
+    "noDrivers": "No se encontraron conductores"
+  },
+  "roles": {
+    "title": "Gestión de Roles",
+    "refresh": "Actualizar",
+    "administrators": "Administradores",
+    "moderators": "Moderadores",
+    "members": "Miembros",
+    "muted": "Silenciados",
+    "none": "Ninguno",
+    "updateRole": "Actualizar Rol",
+    "username": "Usuario de Hive",
+    "selectRole": "Seleccionar Rol",
+    "member": "Miembro",
+    "moderator": "Moderador",
+    "administrator": "Administrador",
+    "updateButton": "Actualizar Rol"
+  },
+  "posts": {
+    "title": "Publicaciones de la Comunidad",
+    "latest": "Más Recientes",
+    "trending": "Tendencias",
+    "hot": "Populares",
+    "loading": "Cargando publicaciones...",
+    "noPosts": "No se encontraron publicaciones"
+  },
+  "moderation": {
+    "title": "Herramientas de Moderación",
+    "muteUser": "Silenciar Usuario",
+    "muteUsername": "Usuario de Hive",
+    "muteReason": "Razón para silenciar",
+    "muteButton": "Silenciar Usuario",
+    "unmuteUser": "Quitar Silencio",
+    "unmuteUsername": "Usuario de Hive",
+    "unmuteButton": "Quitar Silencio"
+  },
+  "composer": {
+    "title": "Crear Publicación",
+    "postTitle": "Título de la Publicación",
+    "postBody": "Contenido de la Publicación (Markdown soportado)",
+    "tags": "Etiquetas (separadas por comas)",
+    "preview": "Vista Previa",
+    "publish": "Publicar",
+    "pinPost": "Fijar esta publicación",
+    "publishing": "Publicando...",
+    "success": "¡Publicación publicada con éxito!",
+    "error": "Error al publicar"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "none": "Ninguno",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  },
+  "roleLabels": {
+    "owner": "Dueño",
+    "admin": "Admin",
+    "mod": "Moderador",
+    "member": "Conductor",
+    "guest": "Suscriptor",
+    "none": "No es Miembro"
+  },
+  "messages": {
+    "loginFailed": "Error al iniciar sesión",
+    "keychainNotFound": "Extensión Hive Keychain no encontrada. Por favor instálela primero.",
+    "roleUpdated": "Rol actualizado exitosamente para",
+    "roleUpdateFailed": "Error al actualizar rol",
+    "userMuted": "Usuario silenciado exitosamente",
+    "userUnmuted": "Silencio removido exitosamente",
+    "postPinned": "Publicación fijada exitosamente",
+    "postUnpinned": "Publicación desfijada exitosamente",
+    "invalidInput": "Por favor revise su entrada",
+    "operationFailed": "Operación fallida. Por favor intente de nuevo."
+  }
+}

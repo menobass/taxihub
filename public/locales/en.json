@@ -1,0 +1,156 @@
+{
+  "app": {
+    "name": "TaxiHub",
+    "tagline": "Community Management Portal"
+  },
+  "login": {
+    "title": "Admin Login",
+    "subtitle": "Connect with Hive Keychain",
+    "button": "Login with Keychain",
+    "info": "Hive Keychain extension required"
+  },
+  "hubSelector": {
+    "title": "Select a Hub",
+    "subtitle": "Choose a community to manage",
+    "loggedInAs": "Logged in as",
+    "noHubs": "No hubs available",
+    "owner": "Owner"
+  },
+  "nav": {
+    "logout": "Logout"
+  },
+  "menu": {
+    "overview": "Overview",
+    "subscribers": "Subscribers",
+    "drivers": "Drivers",
+    "roles": "Roles",
+    "posts": "Posts",
+    "moderation": "Moderation",
+    "composer": "Create Post"
+  },
+  "overview": {
+    "title": "Community Overview",
+    "totalSubscribers": "Total Subscribers",
+    "verifiedDrivers": "Verified Drivers",
+    "recentSignups": "Recent Signups",
+    "livePosts": "Live Posts",
+    "livePostsTooltip": "Live Posts are pending publications with pending payouts. These include taxi shifts and other publications.",
+    "adminsAndMods": "Admins & Mods",
+    "communityDetails": "Community Details",
+    "communityId": "Community ID",
+    "communityTitle": "Title",
+    "language": "Language",
+    "created": "Created"
+  },
+  "subscribers": {
+    "title": "Subscribers",
+    "subtitle": "People who joined but are not yet verified as drivers",
+    "refresh": "Refresh",
+    "search": "Search...",
+    "account": "Account",
+    "userTitle": "Title",
+    "joined": "Joined",
+    "actions": "Actions",
+    "promoteToDriver": "Promote to Driver",
+    "loading": "Loading subscribers...",
+    "noSubscribers": "No pending subscribers"
+  },
+  "drivers": {
+    "title": "Verified Drivers",
+    "subtitle": "Members with driver role (can post shifts)",
+    "refresh": "Refresh",
+    "search": "Search drivers...",
+    "account": "Account",
+    "userTitle": "Title",
+    "role": "Role",
+    "joined": "Joined",
+    "actions": "Actions",
+    "changeRole": "Change Role",
+    "demote": "Remove from Fleet",
+    "promoteToMod": "Promote to Moderator",
+    "confirmDemote": "Remove {account} from the driver fleet?",
+    "confirmPromoteToMod": "Promote {account} to moderator?",
+    "loading": "Loading drivers...",
+    "noDrivers": "No drivers found"
+  },
+  "roles": {
+    "title": "Role Management",
+    "refresh": "Refresh",
+    "administrators": "Administrators",
+    "moderators": "Moderators",
+    "members": "Members",
+    "muted": "Muted",
+    "none": "None",
+    "updateRole": "Update Role",
+    "username": "Hive username",
+    "selectRole": "Select Role",
+    "member": "Member",
+    "moderator": "Moderator",
+    "administrator": "Administrator",
+    "updateButton": "Update Role"
+  },
+  "posts": {
+    "title": "Community Posts",
+    "latest": "Latest",
+    "trending": "Trending",
+    "hot": "Hot",
+    "loading": "Loading posts...",
+    "noPosts": "No posts found"
+  },
+  "moderation": {
+    "title": "Moderation Tools",
+    "muteUser": "Mute User",
+    "muteUsername": "Hive username",
+    "muteReason": "Reason for muting",
+    "muteButton": "Mute User",
+    "unmuteUser": "Unmute User",
+    "unmuteUsername": "Hive username",
+    "unmuteButton": "Unmute User"
+  },
+  "composer": {
+    "title": "Create Post",
+    "postTitle": "Post Title",
+    "postBody": "Post Content (Markdown supported)",
+    "tags": "Tags (comma-separated)",
+    "preview": "Preview",
+    "publish": "Publish Post",
+    "pinPost": "Pin this post",
+    "publishing": "Publishing...",
+    "success": "Post published successfully!",
+    "error": "Failed to publish post"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "none": "None",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "roleLabels": {
+    "owner": "Owner",
+    "admin": "Admin",
+    "mod": "Moderator",
+    "member": "Driver",
+    "guest": "Subscriber",
+    "none": "Not a Member"
+  },
+  "messages": {
+    "loginFailed": "Login failed",
+    "keychainNotFound": "Hive Keychain extension not found. Please install it first.",
+    "roleUpdated": "Successfully updated role for",
+    "roleUpdateFailed": "Failed to update role",
+    "userMuted": "Successfully muted",
+    "userUnmuted": "Successfully unmuted",
+    "postPinned": "Successfully pinned post",
+    "postUnpinned": "Successfully unpinned post",
+    "invalidInput": "Please check your input",
+    "operationFailed": "Operation failed. Please try again."
+  }
+}

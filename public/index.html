@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaxiHub - Community Management Portal</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+      <div class="login-container">
+        <div class="login-content">
+          <div class="logo-section">
+            <img src="/assets/logo.png" alt="TaxiHub Logo" class="logo-image">
+            <h1 class="brand-name" data-i18n="app.name">TaxiHub</h1>
+            <p class="tagline" data-i18n="app.tagline">Community Management Portal</p>
+          </div>
+          
+          <div class="login-card">
+            <!-- Language Switcher in Login -->
+            <div class="language-switcher-login">
+              <button class="lang-btn-login active" data-lang="en">English</button>
+              <button class="lang-btn-login" data-lang="es">Español</button>
+            </div>
+            
+            <h2 data-i18n="login.title">Admin Login</h2>
+            <p class="subtitle" data-i18n="login.subtitle">Connect with Hive Keychain</p>
+            
+            <button id="keychain-login" class="btn btn-primary btn-keychain">
+              <span class="icon">🔑</span>
+              <span data-i18n="login.button">Login with Keychain</span>
+            </button>
+            
+            <p class="info" data-i18n="login.info">Hive Keychain extension required</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hub Selector Screen -->
+    <div id="hub-selector-screen" class="screen">
+      <div class="hub-selector-container">
+        <div class="hub-selector-content">
+          <div class="hub-selector-header">
+            <h1 data-i18n="hubSelector.title">Select a Hub</h1>
+            <p class="subtitle" data-i18n="hubSelector.subtitle">Choose a community to manage</p>
+            <div class="logged-in-as">
+              <span data-i18n="hubSelector.loggedInAs">Logged in as</span>
+              <strong id="hub-selector-username">@username</strong>
+              <button id="hub-selector-logout" class="btn btn-small btn-secondary" data-i18n="nav.logout">Logout</button>
+            </div>
+          </div>
+          
+          <div id="hubs-grid" class="hubs-grid">
+            <p class="loading" data-i18n="common.loading">Loading hubs...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard-screen" class="screen">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <button id="back-to-hubs" class="btn btn-small btn-secondary" title="Back to Hub Selector">← </button>
+          <h2 id="current-hub-name">🚕 TaxiHub</h2>
+        </div>
+        <div class="nav-user">
+          <div class="language-switcher">
+            <button id="lang-en" class="lang-btn active" data-lang="en">EN</button>
+            <button id="lang-es" class="lang-btn" data-lang="es">ES</button>
+          </div>
+          <span id="username-display"></span>
+          <span id="role-display" class="role-badge"></span>
+          <button id="logout-btn" class="btn btn-secondary" data-i18n="nav.logout">Logout</button>
+        </div>
+      </nav>
+
+      <div class="container">
+        <aside class="sidebar">
+          <ul class="menu">
+            <li><a href="#" data-view="overview" class="menu-item active"><span data-i18n="menu.overview">📊 Overview</span></a></li>
+            <li><a href="#" data-view="subscribers" class="menu-item"><span data-i18n="menu.subscribers">👥 Subscribers</span></a></li>
+            <li><a href="#" data-view="drivers" class="menu-item"><span data-i18n="menu.drivers">🚕 Drivers</span></a></li>
+            <li><a href="#" data-view="roles" class="menu-item"><span data-i18n="menu.roles">🎭 Roles</span></a></li>
+            <li><a href="#" data-view="posts" class="menu-item"><span data-i18n="menu.posts">📝 Posts</span></a></li>
+            <li><a href="#" data-view="moderation" class="menu-item"><span data-i18n="menu.moderation">🛡️ Moderation</span></a></li>
+          </ul>
+        </aside>
+
+        <main class="content">
+          <!-- Overview View -->
+          <div id="overview-view" class="view active">
+            <h2 data-i18n="overview.title">Community Overview</h2>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <h3 data-i18n="overview.totalSubscribers">Total Subscribers</h3>
+                <p class="stat-value" id="stat-subscribers">0</p>
+              </div>
+              <div class="stat-card">
+                <h3 data-i18n="overview.verifiedDrivers">Verified Drivers</h3>
+                <p class="stat-value" id="stat-drivers">0</p>
+              </div>
+              <div class="stat-card">
+                <h3 data-i18n="overview.recentSignups">Recent Signups</h3>
+                <p class="stat-value" id="stat-recent">0</p>
+              </div>
+              <div class="stat-card">
+                <h3>
+                  <span data-i18n="overview.livePosts">Live Posts</span>
+                  <span class="info-tooltip" data-i18n-title="overview.livePostsTooltip" title="Live Posts are pending publications with pending payouts. These include taxi shifts and other publications.">ℹ️</span>
+                </h3>
+                <p class="stat-value" id="stat-posts">0</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subscribers View -->
+          <div id="subscribers-view" class="view">
+            <h2 data-i18n="subscribers.title">Subscribers</h2>
+            <p data-i18n="subscribers.subtitle">Community members who have not been verified as drivers yet.</p>
+            <div id="subscribers-list"></div>
+          </div>
+
+          <!-- Drivers View -->
+          <div id="drivers-view" class="view">
+            <h2 data-i18n="drivers.title">Verified Drivers</h2>
+            <p data-i18n="drivers.subtitle">Authorized drivers who can post shifts and rides.</p>
+            <div id="drivers-list"></div>
+          </div>
+
+          <!-- Roles View -->
+          <div id="roles-view" class="view">
+            <div class="view-header">
+              <h1>Role Management</h1>
+              <button class="btn btn-primary" id="refresh-roles">Refresh</button>
+            </div>
+            <div class="roles-container">
+              <div class="role-section">
+                <h3>🔴 Administrators</h3>
+                <ul id="admins-list" class="role-list"></ul>
+              </div>
+              <div class="role-section">
+                <h3>🟡 Moderators</h3>
+                <ul id="mods-list" class="role-list"></ul>
+              </div>
+              <div class="role-section">
+                <h3>🔵 Members</h3>
+                <ul id="members-list" class="role-list"></ul>
+              </div>
+              <div class="role-section">
+                <h3>⚫ Muted</h3>
+                <ul id="muted-list" class="role-list"></ul>
+              </div>
+            </div>
+            <div class="role-actions">
+              <h3>Update Role</h3>
+              <div class="form-group">
+                <input type="text" id="role-account" placeholder="Hive username">
+                <select id="role-select">
+                  <option value="">Select Role</option>
+                  <option value="member">Member</option>
+                  <option value="mod">Moderator</option>
+                  <option value="admin">Administrator</option>
+                </select>
+                <button class="btn btn-primary" id="update-role-btn">Update Role</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Posts View -->
+          <div id="posts-view" class="view">
+            <div class="view-header">
+              <h1>Community Posts</h1>
+              <select id="posts-sort">
+                <option value="created">Latest</option>
+                <option value="trending">Trending</option>
+                <option value="hot">Hot</option>
+              </select>
+            </div>
+            <div id="posts-container" class="posts-grid">
+              <p class="loading">Loading posts...</p>
+            </div>
+          </div>
+
+          <!-- Moderation View -->
+          <div id="moderation-view" class="view">
+            <div class="view-header">
+              <h1>Moderation Tools</h1>
+            </div>
+            <div class="moderation-actions">
+              <div class="action-card">
+                <h3>Mute User</h3>
+                <div class="form-group">
+                  <input type="text" id="mute-account" placeholder="Hive username">
+                  <input type="text" id="mute-notes" placeholder="Reason for muting">
+                  <button class="btn btn-danger" id="mute-user-btn">Mute User</button>
+                </div>
+              </div>
+              <div class="action-card">
+                <h3>Unmute User</h3>
+                <div class="form-group">
+                  <input type="text" id="unmute-account" placeholder="Hive username">
+                  <button class="btn btn-success" id="unmute-user-btn">Unmute User</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for role actions -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modal-title">Action</h2>
+      <p id="modal-message"></p>
+      <div id="modal-actions">
+        <button class="btn btn-secondary" id="modal-cancel">Cancel</button>
+        <button class="btn btn-primary" id="modal-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for post details -->
+  <div id="post-modal" class="modal">
+    <div class="modal-content modal-large">
+      <span class="close" id="post-modal-close">&times;</span>
+      <div id="post-detail-content">
+        <p class="loading">Loading post...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/avatar.service.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "slug": "global-taxi",
+  "name": "Global Taxi Hub",
+  "community": "hive-138395",
+  "adminAccount": "meno",
+  "description": "Global taxi driver community for testing and development",
+  "location": "Worldwide",
+  "settings": {
+    "allowDriverPosts": true,
+    "requireApproval": false,
+    "maxPostsPerDay": 1
+  },
+  "branding": {
+    "primaryColor": "#e31337",
+    "logo": ""
+  },
+  "createdAt": "2025-11-18T00:00:00Z",
+  "active": true
+}

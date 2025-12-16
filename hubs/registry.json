@@ -1,0 +1,37 @@
+{
+  "hubs": [
+    {
+      "communityName": "Global Taxi Hub",
+      "communityUsername": "hive-138395",
+      "location": "Global",
+      "geohash": null,
+      "owner": "meno",
+      "description": "Global taxi driver community - the flagship hub",
+      "language": "en",
+      "active": true,
+      "createdAt": "2024-06-01T00:00:00Z"
+    },
+    {
+      "communityName": "Hive Ecuador",
+      "communityUsername": "hive-115276",
+      "location": "Ecuador",
+      "geohash": "9r0h",
+      "owner": "meno",
+      "description": "Comunidad de Hive en Ecuador",
+      "language": "es",
+      "active": true,
+      "createdAt": "2023-01-15T00:00:00Z"
+    },
+    {
+      "communityName": "Snapie",
+      "communityUsername": "hive-178315",
+      "location": "Global",
+      "geohash": null,
+      "owner": "meno",
+      "description": "Snapie community hub",
+      "language": "en",
+      "active": true,
+      "createdAt": "2024-03-01T00:00:00Z"
+    }
+  ]
+}
