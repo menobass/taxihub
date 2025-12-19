@@ -95,6 +95,13 @@ class API {
     return this.request(`/hubs/${communityUsername}`);
   }
 
+  async registerHub(data) {
+    return this.request('/hubs/register', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
   // Community endpoints
   async getCommunity() {
     return this.request('/community');

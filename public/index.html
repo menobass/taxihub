@@ -44,8 +44,16 @@
       <div class="hub-selector-container">
         <div class="hub-selector-content">
           <div class="hub-selector-header">
-            <h1 data-i18n="hubSelector.title">Select a Hub</h1>
-            <p class="subtitle" data-i18n="hubSelector.subtitle">Choose a community to manage</p>
+            <div class="hub-selector-header-top">
+              <div class="hub-selector-titles">
+                <h1 data-i18n="hubSelector.title">Select a Hub</h1>
+                <p class="subtitle" data-i18n="hubSelector.subtitle">Choose a community to manage</p>
+              </div>
+              <button id="register-hub-btn" class="btn btn-primary">
+                <span class="icon">➕</span>
+                <span data-i18n="registerHub.button">Register New Community</span>
+              </button>
+            </div>
             <div class="logged-in-as">
               <span data-i18n="hubSelector.loggedInAs">Logged in as</span>
               <strong id="hub-selector-username">@username</strong>
@@ -232,6 +240,55 @@
       <span class="close" id="post-modal-close">&times;</span>
       <div id="post-detail-content">
         <p class="loading">Loading post...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for registering new community -->
+  <div id="register-hub-modal" class="modal">
+    <div class="modal-content modal-medium">
+      <span class="close" id="register-modal-close">&times;</span>
+      <div class="register-hub-content">
+        <h2 data-i18n="registerHub.title">Register New Community</h2>
+        <p class="subtitle" data-i18n="registerHub.subtitle">Add an existing Hive community to the TaxiHub network</p>
+        
+        <form id="register-hub-form">
+          <div class="form-group">
+            <label for="register-hive-tag" data-i18n="registerHub.hiveTag">Hive Community Tag</label>
+            <input type="text" id="register-hive-tag" placeholder="hive-XXXXXX" required>
+            <small class="form-hint" data-i18n="registerHub.hiveTagHint">The community tag from Hive (e.g., hive-187441)</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="register-name" data-i18n="registerHub.name">Display Name</label>
+            <input type="text" id="register-name" placeholder="My Taxi Community" required>
+            <small class="form-hint" data-i18n="registerHub.nameHint">A friendly name for your community</small>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="register-latitude" data-i18n="registerHub.latitude">Latitude</label>
+              <input type="number" id="register-latitude" step="any" placeholder="-1.849070">
+              <small class="form-hint" data-i18n="registerHub.latitudeHint">Optional - for location-based hubs</small>
+            </div>
+            
+            <div class="form-group">
+              <label for="register-longitude" data-i18n="registerHub.longitude">Longitude</label>
+              <input type="number" id="register-longitude" step="any" placeholder="-80.745220">
+              <small class="form-hint" data-i18n="registerHub.longitudeHint">Optional - leave empty for global</small>
+            </div>
+          </div>
+          
+          <div id="register-error" class="form-error" style="display: none;"></div>
+          <div id="register-success" class="form-success" style="display: none;"></div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="register-cancel" data-i18n="common.cancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="register-submit">
+              <span data-i18n="registerHub.submit">Register Community</span>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

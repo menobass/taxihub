@@ -14,7 +14,29 @@
     "subtitle": "Choose a community to manage",
     "loggedInAs": "Logged in as",
     "noHubs": "No hubs available",
-    "owner": "Owner"
+    "noDescription": "No description available",
+    "global": "Global",
+    "owner": "Owner",
+    "subscribers": "Subscribers",
+    "authors": "Active Authors"
+  },
+  "registerHub": {
+    "button": "Register New Community",
+    "title": "Register New Community",
+    "subtitle": "Add an existing Hive community to the TaxiHub network",
+    "hiveTag": "Hive Community Tag",
+    "hiveTagHint": "The community tag from Hive (e.g., hive-187441)",
+    "name": "Display Name",
+    "nameHint": "A friendly name for your community",
+    "latitude": "Latitude",
+    "latitudeHint": "Optional - for location-based hubs",
+    "longitude": "Longitude",
+    "longitudeHint": "Optional - leave empty for global",
+    "submit": "Register Community",
+    "success": "Community registered successfully!",
+    "error": "Failed to register community",
+    "invalidTag": "Please enter a valid Hive community tag",
+    "invalidName": "Please enter a display name"
   },
   "nav": {
     "logout": "Logout"

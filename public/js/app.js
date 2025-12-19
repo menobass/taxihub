@@ -124,6 +124,113 @@ class App {
         document.getElementById('post-modal').style.display = 'none';
       }
     });
+
+    // Register Hub Modal
+    this.setupRegisterHubModal();
+  }
+
+  setupRegisterHubModal() {
+    const modal = document.getElementById('register-hub-modal');
+    const openBtn = document.getElementById('register-hub-btn');
+    const closeBtn = document.getElementById('register-modal-close');
+    const cancelBtn = document.getElementById('register-cancel');
+    const form = document.getElementById('register-hub-form');
+
+    // Open modal
+    openBtn?.addEventListener('click', () => {
+      modal.style.display = 'flex';
+      this.resetRegisterForm();
+    });
+
+    // Close modal
+    closeBtn?.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    cancelBtn?.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // Close when clicking outside
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Form submission
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.handleRegisterHub();
+    });
+  }
+
+  resetRegisterForm() {
+    const form = document.getElementById('register-hub-form');
+    form?.reset();
+    document.getElementById('register-error').style.display = 'none';
+    document.getElementById('register-success').style.display = 'none';
+    document.getElementById('register-submit').disabled = false;
+  }
+
+  async handleRegisterHub() {
+    const hiveTag = document.getElementById('register-hive-tag').value.trim();
+    const name = document.getElementById('register-name').value.trim();
+    const latitude = document.getElementById('register-latitude').value.trim();
+    const longitude = document.getElementById('register-longitude').value.trim();
+
+    const errorEl = document.getElementById('register-error');
+    const successEl = document.getElementById('register-success');
+    const submitBtn = document.getElementById('register-submit');
+
+    // Validation
+    if (!hiveTag || !hiveTag.startsWith('hive-')) {
+      errorEl.textContent = t('registerHub.invalidTag');
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    if (!name) {
+      errorEl.textContent = t('registerHub.invalidName');
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    // Hide previous messages
+    errorEl.style.display = 'none';
+    successEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span>${t('common.loading')}</span>`;
+
+    try {
+      const payload = {
+        hiveTag,
+        name,
+        latitude: latitude ? parseFloat(latitude) : null,
+        longitude: longitude ? parseFloat(longitude) : null
+      };
+
+      const response = await api.registerHub(payload);
+
+      if (response.success) {
+        successEl.textContent = t('registerHub.success');
+        successEl.style.display = 'block';
+
+        // Refresh hubs list after short delay
+        setTimeout(() => {
+          document.getElementById('register-hub-modal').style.display = 'none';
+          this.loadHubs();
+        }, 1500);
+      } else {
+        throw new Error(response.message || t('registerHub.error'));
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      errorEl.textContent = error.message || t('registerHub.error');
+      errorEl.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<span data-i18n="registerHub.submit">${t('registerHub.submit')}</span>`;
+    }
   }
 
   setupLanguageSwitcher() {
@@ -219,16 +326,28 @@ class App {
             ${AvatarService.createAvatarImg(hub.communityUsername, 'large')}
             <div class="hub-card-info">
               <h3>${hub.communityName}</h3>
-              <div class="location">📍 ${hub.location}</div>
+              <div class="location">📍 ${hub.location === 'Global' ? t('hubSelector.global') : hub.location}</div>
             </div>
           </div>
-          <p class="hub-card-description">${hub.description}</p>
+          <p class="hub-card-description">${hub.description || t('hubSelector.noDescription')}</p>
+          <div class="hub-card-stats">
+            <div class="hub-card-stat">
+              <span class="stat-icon">👥</span>
+              <span class="stat-value">${hub.subscribers || 0}</span>
+              <span>${t('hubSelector.subscribers')}</span>
+            </div>
+            <div class="hub-card-stat">
+              <span class="stat-icon">✍️</span>
+              <span class="stat-value">${hub.activePosters || 0}</span>
+              <span>${t('hubSelector.authors')}</span>
+            </div>
+          </div>
           <div class="hub-card-footer">
             <div class="hub-card-owner">
               ${AvatarService.createAvatarImg(hub.owner, 'small')}
               <span>@${hub.owner}</span>
             </div>
-            <span class="hub-card-language">${hub.language}</span>
+            <span class="hub-card-language">${hub.language?.toUpperCase() || 'EN'}</span>
           </div>
         </div>
       `).join('');

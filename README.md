@@ -94,6 +94,11 @@ taxihub/
    
    # RPC endpoints (multiple for failover)
    HIVE_RPC_NODES=https://api.hive.blog,https://anyx.io,https://rpc.ausbit.dev
+   
+   # HiveTaxi External API (for community registry)
+   COMMUNITIES_API_URL=https://menosoft.xyz/hivetaxi/api/communities
+   REGISTER_API_URL=https://menosoft.xyz/api/communities/register
+   HIVETAXI_API_KEY=your-hivetaxi-api-key-here
    ```
 
 5. **Start the server**

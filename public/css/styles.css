@@ -1000,9 +1000,19 @@ textarea:focus {
 }
 
 .hub-selector-header {
-  text-align: center;
   margin-bottom: 2rem;
   color: white;
+}
+
+.hub-selector-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.hub-selector-titles {
+  text-align: left;
 }
 
 .hub-selector-header h1 {
@@ -1013,13 +1023,16 @@ textarea:focus {
 .hub-selector-header .subtitle {
   color: rgba(255, 255, 255, 0.7);
   font-size: 1.1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+.hub-selector-header-top .btn {
+  white-space: nowrap;
 }
 
 .logged-in-as {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0.5rem;
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
@@ -1114,6 +1127,31 @@ textarea:focus {
   color: var(--secondary);
 }
 
+.hub-card-stats {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+}
+
+.hub-card-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+.hub-card-stat .stat-icon {
+  font-size: 1rem;
+}
+
+.hub-card-stat .stat-value {
+  font-weight: 600;
+  color: var(--secondary);
+}
+
 /* Back to hubs button */
 #back-to-hubs {
   margin-right: 0.75rem;
@@ -1122,4 +1160,97 @@ textarea:focus {
 .nav-brand {
   display: flex;
   align-items: center;
+}
+
+/* Registration Modal */
+.modal-medium {
+  max-width: 500px;
+}
+
+.register-hub-content h2 {
+  margin-bottom: 0.5rem;
+  color: var(--secondary);
+}
+
+.register-hub-content .subtitle {
+  color: var(--gray);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+#register-hub-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+#register-hub-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--secondary);
+}
+
+#register-hub-form input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#register-hub-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(246, 186, 0, 0.2);
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.form-success {
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+#register-submit {
+  min-width: 160px;
+}
+
+#register-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
