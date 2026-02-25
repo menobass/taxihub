@@ -76,13 +76,23 @@ const AvatarService = {
 
   /**
    * Setup fallback handlers for avatar images (call after DOM update)
+   * Note: images.hive.blog always returns a default avatar, so errors should be rare.
+   * This is mainly for debugging and network issues.
    */
   setupFallbacks() {
     document.querySelectorAll('img.avatar').forEach(img => {
       if (!img.dataset.fallbackSet) {
         img.dataset.fallbackSet = 'true';
-        img.addEventListener('error', function() {
-          this.src = '/assets/default-avatar.png';
+        img.addEventListener('error', function(e) {
+          // Log what's actually failing
+          console.warn('Avatar load error for:', this.dataset.username, 'URL:', this.src);
+          
+          // Prevent infinite loop if fallback also fails
+          if (!this.dataset.fallbackAttempted) {
+            this.dataset.fallbackAttempted = 'true';
+            // Use a simple SVG data URI as fallback
+            this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%23cccccc"/%3E%3Ctext x="50" y="50" font-size="40" text-anchor="middle" dy=".35em" fill="%23666666"%3E' + (this.dataset.username ? this.dataset.username.charAt(0).toUpperCase() : '?') + '%3C/text%3E%3C/svg%3E';
+          }
         });
       }
     });

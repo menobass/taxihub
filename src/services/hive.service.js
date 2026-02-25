@@ -302,16 +302,28 @@ class HiveService {
         author,
         permlink
       });
-      
-      // API returns object with key "author/permlink", extract the actual post
+
+      // API returns a flat map keyed by "author/permlink" where replies are string keys,
+      // not nested objects. Recursively resolve them into a proper nested tree.
       const postKey = `${author}/${permlink}`;
       const post = result[postKey];
-      
+
       if (!post) {
         throw new Error('Post not found');
       }
-      
-      return { success: true, data: post };
+
+      const resolveReplies = (item) => {
+        if (!item.replies || item.replies.length === 0) return item;
+        return {
+          ...item,
+          replies: item.replies
+            .map(key => result[key])
+            .filter(Boolean)
+            .map(resolveReplies)
+        };
+      };
+
+      return { success: true, data: resolveReplies(post) };
     } catch (error) {
       console.error('Failed to fetch post detail:', error);
       return { success: false, error: error.message };
