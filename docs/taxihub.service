@@ -1,0 +1,98 @@
+[Unit]
+Description=TaxiHub Community Management Portal
+Documentation=https://github.com/menosoft/taxihub
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=meno
+Group=meno
+WorkingDirectory=/home/meno/Documents/menosoft/taxihub
+
+# Load environment variables from .env
+# In production, use a separate hardened file (see note below)
+EnvironmentFile=/home/meno/Documents/menosoft/taxihub/.env
+
+# Override NODE_ENV for production
+Environment=NODE_ENV=production
+
+# Node is installed via nvm — use the full path to the binary.
+# If you upgrade Node, update this path to match (run: which node)
+ExecStart=/home/meno/.nvm/versions/node/v22.19.0/bin/node src/server.js
+
+# Restart policy
+Restart=on-failure
+RestartSec=5
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+# Output goes to journald (view with: journalctl -u taxihub -f)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=taxihub
+
+# Graceful shutdown: give the process 10s to finish in-flight requests
+TimeoutStopSec=10
+KillSignal=SIGTERM
+
+# Basic hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/home/meno/Documents/menosoft/taxihub
+
+[Install]
+WantedBy=multi-user.target
+
+# ─────────────────────────────────────────────────────────────
+# SETUP INSTRUCTIONS
+# ─────────────────────────────────────────────────────────────
+#
+# 1. Copy this file to the systemd directory:
+#      sudo cp docs/taxihub.service /etc/systemd/system/taxihub.service
+#
+# 2. Reload systemd so it picks up the new unit:
+#      sudo systemctl daemon-reload
+#
+# 3. Enable it to start on boot:
+#      sudo systemctl enable taxihub
+#
+# 4. Start it now:
+#      sudo systemctl start taxihub
+#
+# 5. Check status / follow logs:
+#      sudo systemctl status taxihub
+#      sudo journalctl -u taxihub -f
+#
+# ─────────────────────────────────────────────────────────────
+# PRODUCTION NOTE: hardened env file
+# ─────────────────────────────────────────────────────────────
+# Don't use the development .env in production. Create a
+# separate file owned only by root:
+#
+#   sudo nano /etc/taxihub/env
+#   sudo chmod 600 /etc/taxihub/env
+#   sudo chown root:root /etc/taxihub/env
+#
+# Then change the EnvironmentFile line above to:
+#   EnvironmentFile=/etc/taxihub/env
+#
+# That file should contain only the production values:
+#   PORT=3000
+#   NODE_ENV=production
+#   JWT_SECRET=<strong-random-secret>
+#   HIVE_POSTING_KEY=<real-key>
+#   HIVE_RPC_NODES=https://api.hive.blog,https://anyx.io
+#   CORS_ORIGINS=https://yourdomain.com
+#   ... etc
+#
+# ─────────────────────────────────────────────────────────────
+# NODE VERSION NOTE
+# ─────────────────────────────────────────────────────────────
+# Systemd does not load your shell profile, so nvm is not
+# available. The ExecStart line uses the full binary path.
+# If you upgrade Node via nvm, update the path. Or create a
+# stable symlink:
+#   sudo ln -sf $(which node) /usr/local/bin/node
+# Then use ExecStart=/usr/local/bin/node src/server.js

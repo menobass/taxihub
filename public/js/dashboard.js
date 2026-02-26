@@ -3,6 +3,15 @@ class Dashboard {
   constructor() {
     this.currentView = 'overview';
     this.communityData = null;
+    // Pagination state
+    this.postsState = {
+      currentSort: 'created',
+      allPosts: [],
+      lastAuthor: null,
+      lastPermlink: null,
+      hasMore: true,
+      isLoading: false
+    };
   }
 
   // Load community overview
@@ -205,20 +214,63 @@ class Dashboard {
     `).join('');
   }
 
-  // Load posts
+  // Load posts (reset pagination)
   async loadPosts() {
     const sort = document.getElementById('posts-sort').value;
     
-    try {
-      const posts = await api.getPosts(sort);
-      const container = document.getElementById('posts-container');
+    // Reset pagination when sort changes
+    if (sort !== this.postsState.currentSort) {
+      this.postsState.currentSort = sort;
+      this.postsState.allPosts = [];
+      this.postsState.lastAuthor = null;
+      this.postsState.lastPermlink = null;
+      this.postsState.hasMore = true;
+    }
+    
+    // Load the first batch
+    await this.loadMorePosts();
+  }
 
-      if (!posts || posts.length === 0) {
-        container.innerHTML = '<p class="loading">No posts found</p>';
+  // Load more posts (pagination)
+  async loadMorePosts() {
+    if (this.postsState.isLoading || !this.postsState.hasMore) {
+      return;
+    }
+
+    this.postsState.isLoading = true;
+    const container = document.getElementById('posts-container');
+    
+    try {
+      const newPosts = await api.getPosts(
+        this.postsState.currentSort,
+        20,
+        this.postsState.lastAuthor,
+        this.postsState.lastPermlink
+      );
+
+      if (!newPosts || newPosts.length === 0) {
+        this.postsState.hasMore = false;
+        if (this.postsState.allPosts.length === 0) {
+          container.innerHTML = '<p class="loading">No posts found</p>';
+        }
         return;
       }
 
-      container.innerHTML = posts.map(post => `
+      // Add new posts to state
+      this.postsState.allPosts.push(...newPosts);
+      
+      // Update pagination markers
+      const lastPost = newPosts[newPosts.length - 1];
+      this.postsState.lastAuthor = lastPost.author;
+      this.postsState.lastPermlink = lastPost.permlink;
+      
+      // If we got fewer posts than requested, we've reached the end
+      if (newPosts.length < 20) {
+        this.postsState.hasMore = false;
+      }
+
+      // Render all posts accumulated so far
+      container.innerHTML = this.postsState.allPosts.map(post => `
         <div class="post-card" data-author="${post.author}" data-permlink="${post.permlink}">
           <div class="post-header">
             ${AvatarService.createAvatarImg(post.author, 'medium')}
@@ -237,6 +289,16 @@ class Dashboard {
         </div>
       `).join('');
 
+      // Add "Load More" button if there are more posts
+      if (this.postsState.hasMore) {
+        const loadMoreBtn = document.createElement('button');
+        loadMoreBtn.className = 'btn btn-primary btn-load-more';
+        loadMoreBtn.textContent = 'Load More Posts';
+        loadMoreBtn.style.marginTop = '20px';
+        loadMoreBtn.addEventListener('click', () => this.loadMorePosts());
+        container.appendChild(loadMoreBtn);
+      }
+
       // Setup avatar fallbacks
       AvatarService.setupFallbacks();
 
@@ -251,6 +313,8 @@ class Dashboard {
     } catch (error) {
       console.error('Failed to load posts:', error);
       this.showError('Failed to load posts');
+    } finally {
+      this.postsState.isLoading = false;
     }
   }
 

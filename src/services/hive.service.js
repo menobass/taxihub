@@ -257,17 +257,25 @@ class HiveService {
   /**
    * Get community posts with various sorting options
    */
-  async getCommunityPosts(hub, sort = 'created', limit = 20, observer = null) {
+  async getCommunityPosts(hub, sort = 'created', limit = 20, startAuthor = null, startPermlink = null, observer = null) {
     try {
       // Note: get_ranked_posts has a max limit of 20
       const safeLimit = Math.min(limit, 20);
       
-      const posts = await this.client.call('bridge', 'get_ranked_posts', {
+      const params = {
         sort,
         tag: hub.community,  // Note: uses 'tag' not 'community'
         limit: safeLimit,
         observer: observer || hub.adminAccount
-      });
+      };
+      
+      // Add pagination params if provided
+      if (startAuthor && startPermlink) {
+        params.start_author = startAuthor;
+        params.start_permlink = startPermlink;
+      }
+      
+      const posts = await this.client.call('bridge', 'get_ranked_posts', params);
       return { success: true, data: posts };
     } catch (error) {
       console.error('Failed to fetch community posts:', error);

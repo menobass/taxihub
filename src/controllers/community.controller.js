@@ -210,12 +210,18 @@ exports.unmuteUser = async (req, res) => {
 };
 
 /**
- * Get community posts
+ * Get community posts with pagination support
  */
 exports.getPosts = async (req, res) => {
   try {
-    const { sort = 'created', limit = 20 } = req.query;
-    const result = await hiveService.getCommunityPosts(req.hub, sort, parseInt(limit));
+    const { sort = 'created', limit = 20, startAuthor = null, startPermlink = null } = req.query;
+    const result = await hiveService.getCommunityPosts(
+      req.hub, 
+      sort, 
+      parseInt(limit),
+      startAuthor,
+      startPermlink
+    );
     
     if (result.success) {
       res.json(result.data);

@@ -144,8 +144,12 @@ class API {
     });
   }
 
-  async getPosts(sort = 'created', limit = 20) {
+  async getPosts(sort = 'created', limit = 20, startAuthor = null, startPermlink = null) {
     const params = new URLSearchParams({ sort, limit });
+    if (startAuthor && startPermlink) {
+      params.append('startAuthor', startAuthor);
+      params.append('startPermlink', startPermlink);
+    }
     return this.request(`/posts?${params}`);
   }
 

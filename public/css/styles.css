@@ -637,6 +637,18 @@ textarea:focus {
   font-size: 0.9rem;
 }
 
+.btn-load-more {
+  display: block !important;
+  width: 100%;
+  margin: 2rem auto !important;
+  padding: 1rem 1.5rem !important;
+}
+
+.btn-load-more:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .icon {
   font-size: 1.2rem;
 }
