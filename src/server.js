@@ -27,6 +27,8 @@ app.use(helmet({
       upgradeInsecureRequests: [],
     },
   },
+  // OSM tile servers require a Referer header; strict-origin sends it on same-protocol requests
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
 app.use(cors({
   origin: process.env.CORS_ORIGINS?.split(',') || '*'

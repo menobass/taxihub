@@ -349,43 +349,44 @@ exports.getPostDetail = async (req, res) => {
 exports.getOnlineUnits = async (req, res) => {
   try {
     // MOCK DATA — replace with real driver location data from DB/cache
-    const baseLat = 10.4806;
-    const baseLng = -66.9036;
+    // Center: Manglaralto, Santa Elena, Ecuador
+    const baseLat = -1.84907;
+    const baseLng = -80.74522;
 
     const mockUnits = [
       {
         username: 'driver_lopez',
         displayName: 'Taxi 01',
         status: 'driving',
-        location: { lat: baseLat + 0.012, lng: baseLng + 0.008 },
+        location: { lat: baseLat + 0.031, lng: baseLng + 0.018 },
         lastSeen: new Date().toISOString()
       },
       {
         username: 'driver_ramirez',
         displayName: 'Taxi 02',
         status: 'idle',
-        location: { lat: baseLat - 0.007, lng: baseLng + 0.015 },
+        location: { lat: baseLat - 0.045, lng: baseLng + 0.027 },
         lastSeen: new Date().toISOString()
       },
       {
         username: 'driver_garcia',
         displayName: 'Taxi 03',
         status: 'driving',
-        location: { lat: baseLat + 0.021, lng: baseLng - 0.011 },
+        location: { lat: baseLat + 0.058, lng: baseLng - 0.033 },
         lastSeen: new Date().toISOString()
       },
       {
         username: 'driver_morales',
         displayName: 'Taxi 04',
-        status: 'idle',
-        location: { lat: baseLat - 0.018, lng: baseLng - 0.006 },
-        lastSeen: new Date().toISOString()
+        status: 'offline',
+        location: { lat: baseLat - 0.022, lng: baseLng - 0.041 },
+        lastSeen: new Date(Date.now() - 8 * 60 * 1000).toISOString()
       },
       {
         username: 'driver_perez',
         displayName: 'Taxi 05',
-        status: 'driving',
-        location: { lat: baseLat + 0.003, lng: baseLng + 0.022 },
+        status: 'idle',
+        location: { lat: baseLat + 0.014, lng: baseLng + 0.052 },
         lastSeen: new Date().toISOString()
       }
     ];
