@@ -405,7 +405,7 @@ class App {
   applyRoleBasedUI() {
     const isAdmin = auth.isAdmin();
     const role = auth.getUserRole();
-    
+
     // Hide menu items for non-admins: Subscribers, Roles, Moderation
     const adminOnlyViews = ['subscribers', 'roles', 'moderation'];
     adminOnlyViews.forEach(view => {
@@ -414,7 +414,14 @@ class App {
         menuItem.closest('li').style.display = isAdmin ? '' : 'none';
       }
     });
-    
+
+    // Fleet map: owner and admin only (not mods)
+    const isOwnerOrAdmin = ['owner', 'admin'].includes(role);
+    const fleetMenuItem = document.querySelector('[data-view="fleet-map"]');
+    if (fleetMenuItem) {
+      fleetMenuItem.closest('li').style.display = isOwnerOrAdmin ? '' : 'none';
+    }
+
     // Show/hide admin-only elements throughout the page
     document.querySelectorAll('[data-admin-only]').forEach(el => {
       el.style.display = isAdmin ? '' : 'none';

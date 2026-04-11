@@ -340,6 +340,67 @@ exports.getPostDetail = async (req, res) => {
 };
 
 /**
+ * Get online units with location (mock)
+ *
+ * API Contract for backend dev:
+ * Response: { success: true, center: {lat, lng}, units: [{username, displayName, status, location: {lat, lng}, lastSeen}] }
+ * status values: "driving" | "idle" | "offline"
+ */
+exports.getOnlineUnits = async (req, res) => {
+  try {
+    // MOCK DATA — replace with real driver location data from DB/cache
+    const baseLat = 10.4806;
+    const baseLng = -66.9036;
+
+    const mockUnits = [
+      {
+        username: 'driver_lopez',
+        displayName: 'Taxi 01',
+        status: 'driving',
+        location: { lat: baseLat + 0.012, lng: baseLng + 0.008 },
+        lastSeen: new Date().toISOString()
+      },
+      {
+        username: 'driver_ramirez',
+        displayName: 'Taxi 02',
+        status: 'idle',
+        location: { lat: baseLat - 0.007, lng: baseLng + 0.015 },
+        lastSeen: new Date().toISOString()
+      },
+      {
+        username: 'driver_garcia',
+        displayName: 'Taxi 03',
+        status: 'driving',
+        location: { lat: baseLat + 0.021, lng: baseLng - 0.011 },
+        lastSeen: new Date().toISOString()
+      },
+      {
+        username: 'driver_morales',
+        displayName: 'Taxi 04',
+        status: 'idle',
+        location: { lat: baseLat - 0.018, lng: baseLng - 0.006 },
+        lastSeen: new Date().toISOString()
+      },
+      {
+        username: 'driver_perez',
+        displayName: 'Taxi 05',
+        status: 'driving',
+        location: { lat: baseLat + 0.003, lng: baseLng + 0.022 },
+        lastSeen: new Date().toISOString()
+      }
+    ];
+
+    res.json({
+      success: true,
+      center: { lat: baseLat, lng: baseLng },
+      units: mockUnits
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch online units' });
+  }
+};
+
+/**
  * Get user account details
  */
 exports.getAccount = async (req, res) => {
