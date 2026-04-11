@@ -175,6 +175,10 @@ class API {
     const params = new URLSearchParams({ author, permlink });
     return this.request(`/post?${params}`);
   }
+
+  async getOnlineUnits() {
+    return this.request('/units/online');
+  }
 }
 
 // Export API instance

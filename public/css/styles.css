@@ -1266,3 +1266,33 @@ textarea:focus {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Fleet Map */
+.fleet-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #ccc;
+}
+
+.fleet-popup strong {
+  font-size: 0.95rem;
+}
+
+.fleet-popup span,
+.fleet-popup small {
+  display: block;
+  color: #555;
+  font-size: 0.82rem;
+}

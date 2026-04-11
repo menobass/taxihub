@@ -48,7 +48,16 @@
     "roles": "Roles",
     "posts": "Publicaciones",
     "moderation": "Moderación",
-    "composer": "Crear Publicación"
+    "composer": "Crear Publicación",
+    "fleetMap": "Mapa de Flota"
+  },
+  "fleetMap": {
+    "title": "Mapa de Flota",
+    "driving": "En Ruta",
+    "idle": "En Espera",
+    "offline": "Fuera de Línea",
+    "lastUpdated": "Actualizado",
+    "lastSeen": "Última vez"
   },
   "overview": {
     "title": "Vista General de la Comunidad",

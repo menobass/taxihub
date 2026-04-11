@@ -443,6 +443,11 @@ class Dashboard {
 
   // Switch view
   switchView(viewName) {
+    // Stop fleet map polling when navigating away
+    if (this.currentView === 'fleet-map' && viewName !== 'fleet-map') {
+      if (typeof fleetMap !== 'undefined') fleetMap.stopPolling();
+    }
+
     // Update active menu item
     document.querySelectorAll('.menu-item').forEach(item => {
       item.classList.remove('active');
@@ -475,6 +480,15 @@ class Dashboard {
         break;
       case 'posts':
         this.loadPosts();
+        break;
+      case 'fleet-map':
+        // Use requestAnimationFrame to ensure the container is painted before Leaflet measures it
+        requestAnimationFrame(() => {
+          if (typeof fleetMap !== 'undefined') {
+            fleetMap.init();
+            fleetMap.startPolling();
+          }
+        });
         break;
     }
   }

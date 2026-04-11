@@ -48,7 +48,16 @@
     "roles": "Roles",
     "posts": "Posts",
     "moderation": "Moderation",
-    "composer": "Create Post"
+    "composer": "Create Post",
+    "fleetMap": "Fleet Map"
+  },
+  "fleetMap": {
+    "title": "Fleet Map",
+    "driving": "Driving",
+    "idle": "Idle",
+    "offline": "Offline",
+    "lastUpdated": "Updated",
+    "lastSeen": "Last seen"
   },
   "overview": {
     "title": "Community Overview",

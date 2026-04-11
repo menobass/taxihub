@@ -20,13 +20,15 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https://images.hive.blog", "https://images.ecency.com"],
+      imgSrc: ["'self'", "data:", "https://images.hive.blog", "https://images.ecency.com", "https://*.tile.openstreetmap.org"],
       connectSrc: ["'self'", "https://api.hive.blog", "https://api.openhive.network"],
       fontSrc: ["'self'"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
   },
+  // OSM tile servers require a Referer header; strict-origin sends it on same-protocol requests
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
 app.use(cors({
   origin: process.env.CORS_ORIGINS?.split(',') || '*'

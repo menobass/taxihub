@@ -35,5 +35,8 @@ tmp/
 temp/
 *.tmp
 
+# Internal documentation (not for version control)
+internal-docs/
+
 # OS files
 Thumbs.db
