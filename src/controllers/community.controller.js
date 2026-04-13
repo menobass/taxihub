@@ -340,12 +340,9 @@ exports.getPostDetail = async (req, res) => {
 };
 
 /**
- * Get online units with location (mock)
- *
- * Simplified: community is derived from req.user (JWT) — no X-Hub-Community header needed.
- * Only accessible to users with admin or mod role.
- * Response: { success: true, center: {lat, lng}, units: [{username, displayName, status, location: {lat, lng}, lastSeen}] }
- * status values: "driving" | "idle" | "offline"
+ * Get online units — proxies to the HiveTaxi NestJS backend.
+ * The JWT is shared between both backends (same JWT_SECRET), so we
+ * forward the Authorization header directly.
  */
 exports.getOnlineUnits = async (req, res) => {
   try {
@@ -354,56 +351,20 @@ exports.getOnlineUnits = async (req, res) => {
       return res.status(403).json({ error: 'Not an admin of any community' });
     }
 
-    // MOCK DATA — replace with real driver location data from DB/cache
-    // Community will be derived from req.user.username via DB lookup
-    // Center: Manglaralto, Santa Elena, Ecuador
-    const baseLat = -1.84907;
-    const baseLng = -80.74522;
-
-    const mockUnits = [
-      {
-        username: 'driver_lopez',
-        displayName: 'Taxi 01',
-        status: 'driving',
-        location: { lat: baseLat + 0.031, lng: baseLng + 0.018 },
-        lastSeen: new Date().toISOString()
-      },
-      {
-        username: 'driver_ramirez',
-        displayName: 'Taxi 02',
-        status: 'idle',
-        location: { lat: baseLat - 0.045, lng: baseLng + 0.027 },
-        lastSeen: new Date().toISOString()
-      },
-      {
-        username: 'driver_garcia',
-        displayName: 'Taxi 03',
-        status: 'driving',
-        location: { lat: baseLat + 0.058, lng: baseLng - 0.033 },
-        lastSeen: new Date().toISOString()
-      },
-      {
-        username: 'driver_morales',
-        displayName: 'Taxi 04',
-        status: 'offline',
-        location: { lat: baseLat - 0.022, lng: baseLng - 0.041 },
-        lastSeen: new Date(Date.now() - 8 * 60 * 1000).toISOString()
-      },
-      {
-        username: 'driver_perez',
-        displayName: 'Taxi 05',
-        status: 'idle',
-        location: { lat: baseLat + 0.014, lng: baseLng + 0.052 },
-        lastSeen: new Date().toISOString()
-      }
-    ];
-
-    res.json({
-      success: true,
-      center: { lat: baseLat, lng: baseLng },
-      units: mockUnits
+    const url = `${process.env.HIVETAXI_API_URL}/units/online`;
+    const upstream = await fetch(url, {
+      headers: { Authorization: req.headers.authorization }
     });
+
+    const data = await upstream.json();
+
+    if (!upstream.ok) {
+      return res.status(upstream.status).json(data);
+    }
+
+    res.json(data);
   } catch (error) {
+    console.error('Failed to fetch online units from upstream:', error);
     res.status(500).json({ error: 'Failed to fetch online units' });
   }
 };
