@@ -33,39 +33,38 @@ class Auth {
       throw new Error('Hive Keychain extension not found. Please install it first.');
     }
 
-    // Prompt for username
     const username = prompt('Enter your Hive username:');
     if (!username) return;
 
-    // Message to sign
-    const message = `TaxiHub Login - ${Date.now()}`;
+    // Step 1: Get a one-time challenge from the backend
+    const { challenge } = await api.getChallenge(username);
 
+    // Step 2: Sign the challenge with the posting key via Keychain
     return new Promise((resolve, reject) => {
       window.hive_keychain.requestSignBuffer(
         username,
-        message,
+        challenge,
         'Posting',
         async (response) => {
-          if (response.success) {
-            try {
-              // For development, we'll use a simplified auth
-              // In production, verify the signature on backend
-              const result = await api.login(username, message);
-              
-              if (result.success && result.token) {
-                api.setToken(result.token);
-                this.username = username;
-                this.isAuthenticated = true;
-                localStorage.setItem('username', username);
-                resolve(result);
-              } else {
-                reject(new Error('Login failed'));
-              }
-            } catch (error) {
-              reject(error);
-            }
-          } else {
+          if (!response.success) {
             reject(new Error('Keychain signature rejected'));
+            return;
+          }
+          try {
+            // Step 3: Send the actual signature (response.result) to the backend
+            const result = await api.login(username, challenge, response.result);
+
+            if (result.success && result.token) {
+              api.setToken(result.token);
+              this.username = username;
+              this.isAuthenticated = true;
+              localStorage.setItem('username', username);
+              resolve(result);
+            } else {
+              reject(new Error('Login failed'));
+            }
+          } catch (error) {
+            reject(error);
           }
         }
       );
