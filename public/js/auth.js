@@ -33,8 +33,9 @@ class Auth {
       throw new Error('Hive Keychain extension not found. Please install it first.');
     }
 
-    const username = prompt('Enter your Hive username:');
-    if (!username) return;
+    const raw = prompt('Enter your Hive username:');
+    if (!raw) return;
+    const username = raw.trim().replace(/^@/, '').toLowerCase();
 
     // Step 1: Get a one-time challenge from the backend
     const { challenge } = await api.getChallenge(username);

@@ -1,19 +1,18 @@
+const crypto = require('crypto');
 const dhive = require('@hiveio/dhive');
 
 /**
- * Verify Hive Keychain signature
- * @param {string} username - Hive username
- * @param {string} message - Original message that was signed
- * @param {string} signature - Signature from Hive Keychain
- * @param {string} publicKey - Public posting key
+ * Verify Hive Keychain signature.
+ * Keychain signs SHA256(message) internally, so we must hash before verifying —
+ * dhive's PublicKey.verify() expects a 32-byte hash, not the raw message.
  */
 exports.verifyKeychainSignature = (username, message, signature, publicKey) => {
   try {
     const pubKey = dhive.PublicKey.fromString(publicKey);
-    const buffer = Buffer.from(message, 'utf8');
+    const hash = crypto.createHash('sha256').update(message).digest();
     const sig = dhive.Signature.fromString(signature);
-    
-    return pubKey.verify(buffer, sig);
+
+    return pubKey.verify(hash, sig);
   } catch (error) {
     console.error('Signature verification failed:', error);
     return false;
