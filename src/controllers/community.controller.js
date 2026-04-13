@@ -342,13 +342,20 @@ exports.getPostDetail = async (req, res) => {
 /**
  * Get online units with location (mock)
  *
- * API Contract for backend dev:
+ * Simplified: community is derived from req.user (JWT) — no X-Hub-Community header needed.
+ * Only accessible to users with admin or mod role.
  * Response: { success: true, center: {lat, lng}, units: [{username, displayName, status, location: {lat, lng}, lastSeen}] }
  * status values: "driving" | "idle" | "offline"
  */
 exports.getOnlineUnits = async (req, res) => {
   try {
+    const { role } = req.user;
+    if (role !== 'admin' && role !== 'mod' && role !== 'owner') {
+      return res.status(403).json({ error: 'Not an admin of any community' });
+    }
+
     // MOCK DATA — replace with real driver location data from DB/cache
+    // Community will be derived from req.user.username via DB lookup
     // Center: Manglaralto, Santa Elena, Ecuador
     const baseLat = -1.84907;
     const baseLng = -80.74522;
