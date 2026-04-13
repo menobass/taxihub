@@ -75,10 +75,17 @@ class API {
   }
 
   // Auth endpoints
-  async login(username, signature) {
+  async getChallenge(username) {
+    return this.request('/auth/challenge', {
+      method: 'POST',
+      body: JSON.stringify({ username })
+    });
+  }
+
+  async login(username, challenge, signature) {
     return this.request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ username, signature })
+      body: JSON.stringify({ username, challenge, signature })
     });
   }
 

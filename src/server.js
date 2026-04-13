@@ -9,6 +9,8 @@ const communityRoutes = require('./routes/community.routes');
 const authRoutes = require('./routes/auth.routes');
 const hubRoutes = require('./routes/hub.routes');
 const hubMiddleware = require('./middleware/hub.middleware');
+const auth = require('./middleware/auth.middleware');
+const communityController = require('./controllers/community.controller');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -54,6 +56,7 @@ app.use(express.static('public'));
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/hubs', hubRoutes);  // Hub registry (no hub context needed)
+app.get('/api/units/online', auth, communityController.getOnlineUnits);  // No hub context needed — community derived from JWT
 app.use('/api', hubMiddleware, communityRoutes);  // Community routes (require hub context)
 
 // Health check

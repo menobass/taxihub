@@ -11,7 +11,6 @@ router.get('/user-role', communityController.getUserRole);
 router.get('/account/:username', communityController.getAccount);
 
 // Protected routes (require authentication)
-router.get('/units/online', auth, communityController.getOnlineUnits);
 router.get('/members', auth, communityController.getMembers);
 router.get('/roles', auth, communityController.getRoles);
 router.post('/role', auth, communityController.updateRole);
