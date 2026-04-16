@@ -88,8 +88,10 @@ taxihub/
    # Posting key for the admin account (keep secret!)
    HIVE_POSTING_KEY=5JYourPrivatePostingKeyHere
    
-   # JWT secret for session management
+   # JWT secret for TaxiHub local session management
    JWT_SECRET=your-super-secret-jwt-key-change-this
+   # Optional: JWT secret expected by menosoft.xyz upstream
+   MENOSOFT_JWT_SECRET=your-menosoft-upstream-jwt-secret
    JWT_EXPIRES_IN=24h
    
    # RPC endpoints (multiple for failover)
@@ -186,7 +188,8 @@ Users log in using Hive Keychain:
 | `HIVE_COMMUNITY` | Community ID | hive-123456 |
 | `HIVE_ADMIN_ACCOUNT` | Admin username | - |
 | `HIVE_POSTING_KEY` | Admin posting key | - |
-| `JWT_SECRET` | JWT signing key | - |
+| `JWT_SECRET` | JWT signing key for TaxiHub sessions | - |
+| `MENOSOFT_JWT_SECRET` | JWT signing key for menosoft.xyz upstream calls (fallback: `JWT_SECRET`) | - |
 | `JWT_EXPIRES_IN` | Token expiry | 24h |
 | `HIVE_RPC_NODES` | RPC endpoints (comma-separated) | See .env.example |
 | `RATE_LIMIT_WINDOW_MS` | Rate limit window | 900000 (15 min) |

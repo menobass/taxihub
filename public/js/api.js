@@ -82,10 +82,10 @@ class API {
     });
   }
 
-  async login(username, challenge, signature) {
+  async login(username, challenge, timestamp, signature) {
     return this.request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ username, challenge, signature })
+      body: JSON.stringify({ username, challenge, timestamp, signature })
     });
   }
 
@@ -184,7 +184,12 @@ class API {
   }
 
   async getOnlineUnits() {
-    return this.request('/units/online');
+    const params = new URLSearchParams();
+    if (this.currentHub) {
+      params.append('community', this.currentHub);
+    }
+    const suffix = params.toString() ? `?${params}` : '';
+    return this.request(`/units/online${suffix}`);
   }
 }
 
