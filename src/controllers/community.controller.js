@@ -340,9 +340,8 @@ exports.getPostDetail = async (req, res) => {
 };
 
 /**
- * Get online units — proxies to the HiveTaxi NestJS backend.
- * The JWT is shared between both backends (same JWT_SECRET), so we
- * forward the Authorization header directly.
+ * Get online units — proxies to the HiveTaxi backend.
+ * Authenticates with HIVETAXI_API_KEY and filters by community.
  */
 exports.getOnlineUnits = async (req, res) => {
   try {
@@ -351,14 +350,36 @@ exports.getOnlineUnits = async (req, res) => {
       return res.status(403).json({ error: 'Not an admin of any community' });
     }
 
-    const url = `${process.env.HIVETAXI_API_URL}/units/online`;
-    const upstream = await fetch(url, {
-      headers: { Authorization: req.headers.authorization }
-    });
+    const community =
+      req.query.community ||
+      req.headers['x-hub-community'];
 
+    if (!community) {
+      return res.status(400).json({ error: 'Community is required. Select a hub and try again.' });
+    }
+
+    const apiKey = process.env.HIVETAXI_API_KEY?.trim();
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Server configuration error: HIVETAXI_API_KEY not set' });
+    }
+
+    const url = `${process.env.HIVETAXI_API_URL}/units/online?community=${encodeURIComponent(community)}`;
+    const upstream = await fetch(url, {
+      headers: {
+        'X-API-Key': apiKey,
+        Authorization: `Bearer ${apiKey}`
+      }
+    });
     const data = await upstream.json();
 
     if (!upstream.ok) {
+      if (upstream.status === 401) {
+        console.error('HiveTaxi upstream API key rejected', {
+          community,
+          apiKeyConfigured: Boolean(apiKey),
+          apiKeyLength: apiKey?.length || 0
+        });
+      }
       return res.status(upstream.status).json(data);
     }
 

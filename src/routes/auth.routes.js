@@ -24,10 +24,35 @@ router.post('/challenge', async (req, res) => {
       return res.status(400).json({ error: 'Invalid Hive username format' });
     }
 
-    const challenge = crypto.randomBytes(32).toString('hex');
-    cache.set(`challenge:${username}`, { challenge, username }, CHALLENGE_TTL);
+    let challenge;
+    let timestamp;
 
-    res.json({ challenge });
+    try {
+      const upstreamChallengeUrl = `${process.env.HIVETAXI_API_URL}/auth/challenge`;
+      const upstreamResponse = await fetch(upstreamChallengeUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+      });
+      const upstreamData = await upstreamResponse.json();
+
+      if (upstreamResponse.ok && upstreamData?.challenge && upstreamData?.timestamp) {
+        challenge = upstreamData.challenge;
+        timestamp = upstreamData.timestamp;
+      }
+    } catch (upstreamError) {
+      console.warn('Upstream challenge fetch failed, falling back to local challenge:', upstreamError.message);
+    }
+
+    if (!challenge) {
+      challenge = crypto.randomBytes(32).toString('hex');
+      timestamp = Date.now();
+    }
+
+    const messageToSign = `${username}:${challenge}:${timestamp}`;
+    cache.set(`challenge:${username}`, { challenge, username, timestamp, messageToSign }, CHALLENGE_TTL);
+
+    res.json({ challenge, timestamp, messageToSign });
   } catch (error) {
     res.status(500).json({ error: 'Failed to generate challenge' });
   }
@@ -41,15 +66,15 @@ router.post('/challenge', async (req, res) => {
  */
 router.post('/login', async (req, res) => {
   try {
-    const { username, challenge, signature } = req.body;
+    const { username, challenge, timestamp, signature } = req.body;
 
-    if (!username || !challenge || !signature) {
-      return res.status(400).json({ error: 'Username, challenge, and signature required' });
+    if (!username || !challenge || !signature || !timestamp) {
+      return res.status(400).json({ error: 'Username, challenge, timestamp, and signature required' });
     }
 
     // Retrieve and validate the stored challenge
     const stored = cache.get(`challenge:${username}`);
-    if (!stored || stored.challenge !== challenge) {
+    if (!stored || stored.challenge !== challenge || String(stored.timestamp) !== String(timestamp)) {
       return res.status(401).json({ error: 'Invalid or expired challenge' });
     }
 
@@ -60,8 +85,8 @@ router.post('/login', async (req, res) => {
     }
     const publicKey = accounts[0].posting.key_auths[0][0];
 
-    // Verify the Keychain signature against the challenge
-    const valid = hiveUtils.verifyKeychainSignature(username, challenge, signature, publicKey);
+    // Verify the Keychain signature against the exact signed message
+    const valid = hiveUtils.verifyKeychainSignature(username, stored.messageToSign, signature, publicKey);
     if (!valid) {
       return res.status(401).json({ error: 'Invalid signature' });
     }

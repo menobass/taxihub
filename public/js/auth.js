@@ -38,13 +38,13 @@ class Auth {
     const username = raw.trim().replace(/^@/, '').toLowerCase();
 
     // Step 1: Get a one-time challenge from the backend
-    const { challenge } = await api.getChallenge(username);
+    const { challenge, timestamp, messageToSign } = await api.getChallenge(username);
 
     // Step 2: Sign the challenge with the posting key via Keychain
     return new Promise((resolve, reject) => {
       window.hive_keychain.requestSignBuffer(
         username,
-        challenge,
+        messageToSign || challenge,
         'Posting',
         async (response) => {
           if (!response.success) {
@@ -53,7 +53,7 @@ class Auth {
           }
           try {
             // Step 3: Send the actual signature (response.result) to the backend
-            const result = await api.login(username, challenge, response.result);
+            const result = await api.login(username, challenge, timestamp, response.result);
 
             if (result.success && result.token) {
               api.setToken(result.token);
